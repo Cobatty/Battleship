@@ -111,7 +111,7 @@ var view = {
 var controller = {
     guesses: 0,
     processGuess: function(guess) {
-        var location = this.parseGuess(guess);
+        var location = parseGuess(guess);
         if (location) {
             this.guesses++;
             var hit = model.fire(location);
