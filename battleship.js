@@ -3,6 +3,7 @@ var model = {
     numShips: 3,
     shipLength: 3,
     shipsSunk: 0,    
+    
     ships: [
     {locations: [0, 0, 0], hits: ["", "", ""]},
     {locations: [0, 0, 0], hits: ["", "", ""]},
@@ -18,9 +19,10 @@ var model = {
 				view.displayMessage("Oops, you already hit that location!");
 				return true;
             } else if (index >= 0){
-                ship.hits[index] = "hits";
+                ship.hits[index] = "hit";
                 view.displayHit(guess);
                 view.displayMessage("HIT!")
+                
                 if (this.isSunk(ship)){
                     view.displayMessage("You sank my battleship!")
                     this.shipsSunk++;
@@ -47,16 +49,17 @@ var model = {
         for (var i = 0; i < this.numShips; i++) {
             do {
                 locations = this.generateShip();
-                } while (this.collision(locations));
-                this.ships[i].locations = locations;
-            }
-            console.log("Ships array: ");
+            } while (this.collision(locations));
+            this.ships[i].locations = locations;
+        }
+          console.log("Ships array: ");
 		  console.log(this.ships);
-        },
+    },
     
     generateShip: function(){
         var direction = Math.floor(Math.random() * 2);
         var row, col;
+        
         if (direction === 1){ // horizontal
             row = Math.floor(Math.random() * this.boardSize);
             col = Math.floor(Math.random() * (this.boardSize - this.shipLength + 1));
@@ -110,6 +113,7 @@ var view = {
 
 var controller = {
     guesses: 0,
+    
     processGuess: function(guess) {
         var location = parseGuess(guess);
         if (location) {
@@ -147,12 +151,15 @@ function parseGuess(guess){
 function handleFireButton(){
     var guessInput = document.getElementById("guessInput");
     var guess = guessInput.value;
+    
     controller.processGuess(guess);    
+    
     guessInput.value = "";
 }
 
 function handleKeyPress(e){
     var fireButton = document.getElementById("fireButton");
+    
     if (e.keyCode === 13) {
         fireButton.click();
         return false;
@@ -165,6 +172,7 @@ window.onload = init;
 function init(){
     var fireButton = document.getElementById("fireButton");
     fireButton.onclick = handleFireButton;
+    
     var guessInput = document.getElementById("guessInput");
     guessInput.onkeypress = handleKeyPress;
     
